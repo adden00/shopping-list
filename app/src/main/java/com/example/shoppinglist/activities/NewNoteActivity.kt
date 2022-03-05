@@ -2,10 +2,14 @@ package com.example.shoppinglist.activities
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Spannable
+import android.text.style.StyleSpan
 import android.view.Menu
 import android.view.MenuItem
+import androidx.core.text.getSpans
 import com.example.shoppinglist.R
 import com.example.shoppinglist.databinding.ActivityNewNoteBinding
 import com.example.shoppinglist.entities.NoteItem
@@ -44,14 +48,36 @@ class NewNoteActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(item.itemId == R.id.id_save) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {  // нажатия на вернюю панель
+        when (item.itemId) {
+            R.id.id_save -> {
                 setMyResult()
-        }
-        else if (item.itemId == android.R.id.home) {
-            finish()
+            }
+            android.R.id.home -> {
+                finish()
+            }
+            R.id.id_bold -> {
+                setBoldToSelectedText()
+            }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun setBoldToSelectedText() {
+        val startPos = binding.edDescription.selectionStart
+        val endPos = binding.edDescription.selectionEnd
+
+        val styles = binding.edDescription.text.getSpans(startPos, endPos, StyleSpan::class.java)
+        var boldStyle: StyleSpan? = null
+        if (styles.isNotEmpty()){
+            binding.edDescription.text.removeSpan(styles[0])
+        } else {
+            boldStyle = StyleSpan(Typeface.BOLD)
+        }
+        binding.edDescription.text.setSpan(boldStyle, startPos, endPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        binding.edDescription.text.trim()
+        binding.edDescription.setSelection(startPos)
+
     }
 
     private fun setMyResult(){
