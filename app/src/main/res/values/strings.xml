@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">shoppingList</string>
+    <string name="settings">settings</string>
+    <string name="notes">notes</string>
+    <string name="shop_list">shop_list</string>
+    <string name="new_item">new_item</string>
+    <string name="ed_title_hint">Title</string>
+    <string name="description_hint">Description</string>
+    <string name="save">Save</string>
+</resources>
