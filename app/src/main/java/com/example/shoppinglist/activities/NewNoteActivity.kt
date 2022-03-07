@@ -14,6 +14,7 @@ import com.example.shoppinglist.R
 import com.example.shoppinglist.databinding.ActivityNewNoteBinding
 import com.example.shoppinglist.entities.NoteItem
 import com.example.shoppinglist.fragments.NoteFragment
+import com.example.shoppinglist.utils.HtmlManager
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -40,7 +41,7 @@ class NewNoteActivity : AppCompatActivity() {
 
     private fun fillNote() {
         binding.edTitle.setText(note?.title)
-        binding.edDescription.setText(note?.content)
+        binding.edDescription.setText(HtmlManager.getHtml(note!!.content).trim()) // используем методы коныертирования spanned to html
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -99,11 +100,11 @@ class NewNoteActivity : AppCompatActivity() {
 
     private fun updateNote(): NoteItem? {
         return note?.copy(title = binding.edTitle.text.toString(),
-        content = binding.edDescription.text.toString())
+        content = HtmlManager.toHtml(binding.edDescription.text))
     }
 
     private fun createNewNote(): NoteItem{
-        return NoteItem(null, binding.edTitle.text.toString(), binding.edDescription.text.toString(), getCurrentTime(), "")
+        return NoteItem(null, binding.edTitle.text.toString(), HtmlManager.toHtml(binding.edDescription.text), getCurrentTime(), "")
     }
 
     private fun getCurrentTime(): String{

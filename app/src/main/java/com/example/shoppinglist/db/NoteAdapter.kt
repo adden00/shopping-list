@@ -1,6 +1,5 @@
 package com.example.shoppinglist.db
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,15 +9,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.shoppinglist.R
 import com.example.shoppinglist.databinding.NoteListItemBinding
 import com.example.shoppinglist.entities.NoteItem
+import com.example.shoppinglist.utils.HtmlManager
 
 class NoteAdapter(private val listener: Listener): ListAdapter<NoteItem, NoteAdapter.ItemHolder>(ItemComparator()) {
 
 
     class ItemHolder(view: View) : RecyclerView.ViewHolder(view) { // каждый объект класса хранит ссылку на одну пазметку list_item
         private val binding = NoteListItemBinding.bind(view)
+
+
         fun setData(note: NoteItem, listener: Listener){
             binding.tvTitle.text = note.title
-            binding.tvDescription.text = note.content
+            binding.tvDescription.text = HtmlManager.getHtml(note.content).trim()
             binding.tvTime.text = note.time
             binding.imDelete.setOnClickListener{
                 listener.deleteItem(note.id!!)
@@ -28,8 +30,8 @@ class NoteAdapter(private val listener: Listener): ListAdapter<NoteItem, NoteAda
             }
         }
         companion object {
-            fun create(parrent: ViewGroup): ItemHolder {
-                return ItemHolder(LayoutInflater.from(parrent.context).inflate(R.layout.note_list_item, parrent, false))
+            fun create(parent: ViewGroup): ItemHolder {
+                return ItemHolder(LayoutInflater.from(parent.context).inflate(R.layout.note_list_item, parent, false))
             }
         }
 
