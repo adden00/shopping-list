@@ -8,4 +8,13 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="green_main">#10B14B</color>
+
+
+    <color name="cpRed">#F00</color>
+    <color name="cpOrange">#FF5722</color>
+    <color name="cpYellow">#FFC107</color>
+    <color name="cpGreen">#8BC34A</color>
+    <color name="cpBlue">#3F51B5</color>
+    <color name="cpPurple">#673AB7</color>
+
 </resources>
