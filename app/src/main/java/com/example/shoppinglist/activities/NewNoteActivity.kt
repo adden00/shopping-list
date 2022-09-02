@@ -22,6 +22,7 @@ import com.example.shoppinglist.entities.NoteItem
 import com.example.shoppinglist.fragments.NoteFragment
 import com.example.shoppinglist.utils.HtmlManager
 import com.example.shoppinglist.utils.MyTouchListener
+import com.example.shoppinglist.utils.TimeManager
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -70,7 +71,8 @@ class NewNoteActivity : AppCompatActivity() {
         ) // используем методы коныертирования spanned to html
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.new_note_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
@@ -167,16 +169,12 @@ class NewNoteActivity : AppCompatActivity() {
             null,
             binding.edTitle.text.toString(),
             HtmlManager.toHtml(binding.edDescription.text),
-            getCurrentTime(),
+            TimeManager.getCurrentTime(),
             ""
         )
     }
 
-    private fun getCurrentTime(): String {
-        val formatter = SimpleDateFormat("hh:mm:ss - yyyy/MM/dd", Locale.getDefault())
-        return formatter.format(Calendar.getInstance().time)
 
-    }
 
     private fun openColorPicker() {
         binding.colorPicker.visibility = View.VISIBLE

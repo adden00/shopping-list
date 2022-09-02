@@ -6,9 +6,11 @@ import android.util.Log
 import android.widget.Toast
 import com.example.shoppinglist.R
 import com.example.shoppinglist.databinding.ActivityMainBinding
+import com.example.shoppinglist.dialogs.NewListDialog
 import com.example.shoppinglist.fragments.BaseFragment
 import com.example.shoppinglist.fragments.FragmentManager
 import com.example.shoppinglist.fragments.NoteFragment
+import com.example.shoppinglist.fragments.ShopListNamesFragment
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
@@ -17,6 +19,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setBottomNavListener()
+        FragmentManager.setFragment(ShopListNamesFragment.newInstance(), this)
 
 
     }
@@ -33,15 +36,18 @@ class MainActivity : AppCompatActivity() {
                     FragmentManager.setFragment(NoteFragment.newInstance(), this)
                 }
                 R.id.shop_list -> {
-                    Log.d("MyLog", "shop_list")
+                    FragmentManager.setFragment(ShopListNamesFragment.newInstance(), this)
                 }
                 R.id.new_item -> {
                     FragmentManager.currentFrag?.onClickNew()
+
                 }
             }
             true
         }
     }
+
+
 
 
 }

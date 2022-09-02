@@ -2,6 +2,7 @@ package com.example.shoppinglist.db
 
 import androidx.lifecycle.*
 import com.example.shoppinglist.entities.NoteItem
+import com.example.shoppinglist.entities.ShoppingListName
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 
@@ -21,7 +22,13 @@ class MainViewModel(database: MainDataBase): ViewModel() {
         dao.deleteNote(id)
     }
 
-    class MainViewModelFactory(val database: MainDataBase) : ViewModelProvider.Factory {
+    val allListNames: LiveData<List<ShoppingListName>> = dao.getAllShoppingLists().asLiveData()
+
+    fun insertListName(name: ShoppingListName) = viewModelScope.launch {
+        dao.insertListName(name)
+    }
+
+    class MainViewModelFactory(private val database: MainDataBase) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if(modelClass.isAssignableFrom(MainViewModel::class.java)) {
                 @Suppress ("UNCHECKED_CAST")

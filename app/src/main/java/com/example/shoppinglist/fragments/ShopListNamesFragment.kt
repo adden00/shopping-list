@@ -1,60 +1,80 @@
 package com.example.shoppinglist.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.shoppinglist.R
+import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.shoppinglist.activities.MainActivity
+import com.example.shoppinglist.activities.MainApp
+import com.example.shoppinglist.databinding.FragmentShopListNamesBinding
+import com.example.shoppinglist.db.MainViewModel
+import com.example.shoppinglist.db.ShoppingListNameAdapter
+import com.example.shoppinglist.dialogs.NewListDialog
+import com.example.shoppinglist.entities.ShoppingListName
+import com.example.shoppinglist.utils.TimeManager
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ShopListNamesFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class ShopListNamesFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+class ShopListNamesFragment : BaseFragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+    private lateinit var binding: FragmentShopListNamesBinding
+    private lateinit var adapter: ShoppingListNameAdapter
+
+    private val mainViewModel : MainViewModel by activityViewModels {
+        MainViewModel.MainViewModelFactory((context?.applicationContext as MainApp).database)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_shop_list_names, container, false)
-    }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ShopListNamesFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ShopListNamesFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+        override fun onClickNew() {
+            NewListDialog.showDialog(activity as MainActivity, object : NewListDialog.Listener {
+                override fun onClick(name: String) {
+                    val shopListName = ShoppingListName(null, name, TimeManager.getCurrentTime(), 0, 0, "")
+                    mainViewModel.insertListName(shopListName)
+
+
                 }
+
+            })
+        }
+
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+
+        }
+
+        override fun onCreateView(
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
+        ): View {
+            binding = FragmentShopListNamesBinding.inflate(inflater)
+            return binding.root
+        }
+
+        override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+            super.onViewCreated(view, savedInstanceState)
+            initRcView()
+            observer()
+        }
+
+        private fun observer() {
+            mainViewModel.allListNames.observe(viewLifecycleOwner) {
+                adapter.submitList(it)
             }
+
+        }
+
+        private fun initRcView() {
+            binding.rcView.layoutManager = LinearLayoutManager(activity)
+            adapter = ShoppingListNameAdapter()
+            binding.rcView.adapter = adapter
+        }
+
+        companion object {
+
+        @JvmStatic
+        fun newInstance() = ShopListNamesFragment()
     }
 }
+
+
