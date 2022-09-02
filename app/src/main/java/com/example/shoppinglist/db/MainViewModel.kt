@@ -28,6 +28,10 @@ class MainViewModel(database: MainDataBase): ViewModel() {
         dao.insertListName(name)
     }
 
+    fun deleteShopList(id: Int) = viewModelScope.launch {   // используем корутины от viewModel
+        dao.deleteShopListName(id)
+    }
+
     class MainViewModelFactory(private val database: MainDataBase) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if(modelClass.isAssignableFrom(MainViewModel::class.java)) {

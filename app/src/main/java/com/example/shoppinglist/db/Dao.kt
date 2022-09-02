@@ -29,6 +29,10 @@ interface Dao {
     @Update  // запись
     suspend fun updateNote(note: NoteItem)
 
+    @Query ("DELETE FROM SHOPPING_LIST_NAMES WHERE id IS :id")   // удаление по id
+    suspend fun deleteShopListName(id: Int)    // запускаем на корутине удаление
+
+
 
 
 }

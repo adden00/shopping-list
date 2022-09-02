@@ -13,55 +13,68 @@ import com.example.shoppinglist.entities.NoteItem
 import com.example.shoppinglist.entities.ShoppingListName
 import com.example.shoppinglist.utils.HtmlManager
 
-class ShoppingListNameAdapter(): ListAdapter<ShoppingListName, ShoppingListNameAdapter.ItemHolder>(ItemComparator()) {
+class ShoppingListNameAdapter(private val listener: Listener): ListAdapter<ShoppingListName, ShoppingListNameAdapter.ItemHolder>(ItemComparator()) {
 
 
-    class ItemHolder(view: View) : RecyclerView.ViewHolder(view) { // каждый объект класса хранит ссылку на одну пазметку list_item
+    class ItemHolder(view: View) :
+        RecyclerView.ViewHolder(view) { // каждый объект класса хранит ссылку на одну пазметку list_item
         private val binding = ListNameItemBinding.bind(view)
 
 
-        fun setData(ShopListNameItem: ShoppingListName){
+        fun setData(ShopListNameItem: ShoppingListName, listener: Listener) {
             binding.tvName.text = ShopListNameItem.name
             binding.tvTime.text = ShopListNameItem.time
-            binding.imDelete.setOnClickListener{
-
+            binding.imDelete.setOnClickListener {
+                listener.deleteItem(ShopListNameItem.id!!)
             }
-            itemView.setOnClickListener{
+            itemView.setOnClickListener {
 
             }
         }
+
         companion object {
             fun create(parent: ViewGroup): ItemHolder {
-                return ItemHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_name_item, parent, false))
+                return ItemHolder(
+                    LayoutInflater.from(parent.context)
+                        .inflate(R.layout.list_name_item, parent, false)
+                )
             }
         }
 
     }
-    class ItemComparator: DiffUtil.ItemCallback<ShoppingListName>(){
-        override fun areItemsTheSame(oldItem: ShoppingListName, newItem: ShoppingListName): Boolean {
+
+    class ItemComparator : DiffUtil.ItemCallback<ShoppingListName>() {
+        override fun areItemsTheSame(
+            oldItem: ShoppingListName,
+            newItem: ShoppingListName
+        ): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: ShoppingListName, newItem: ShoppingListName): Boolean {
+        override fun areContentsTheSame(
+            oldItem: ShoppingListName,
+            newItem: ShoppingListName
+        ): Boolean {
             return oldItem == newItem
         }
 
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShoppingListNameAdapter.ItemHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): ShoppingListNameAdapter.ItemHolder {
         return ItemHolder.create(parent)
     }
 
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
-        holder.setData(getItem(position))
+        holder.setData(getItem(position), listener)
     }
 
 
-}
-
-
-interface Listener{
-    fun deleteItem(id: Int)
-    fun onClickItem(note: NoteItem)
+    interface Listener {
+        fun deleteItem(id: Int)
+        fun onClickItem(note: NoteItem)
+    }
 }

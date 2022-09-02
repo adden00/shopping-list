@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shoppinglist.activities.MainActivity
@@ -11,12 +12,14 @@ import com.example.shoppinglist.activities.MainApp
 import com.example.shoppinglist.databinding.FragmentShopListNamesBinding
 import com.example.shoppinglist.db.MainViewModel
 import com.example.shoppinglist.db.ShoppingListNameAdapter
+import com.example.shoppinglist.dialogs.DeleteDialog
 import com.example.shoppinglist.dialogs.NewListDialog
+import com.example.shoppinglist.entities.NoteItem
 import com.example.shoppinglist.entities.ShoppingListName
 import com.example.shoppinglist.utils.TimeManager
 
 
-class ShopListNamesFragment : BaseFragment() {
+class ShopListNamesFragment : BaseFragment(), ShoppingListNameAdapter.Listener {
 
     private lateinit var binding: FragmentShopListNamesBinding
     private lateinit var adapter: ShoppingListNameAdapter
@@ -66,7 +69,7 @@ class ShopListNamesFragment : BaseFragment() {
 
         private fun initRcView() {
             binding.rcView.layoutManager = LinearLayoutManager(activity)
-            adapter = ShoppingListNameAdapter()
+            adapter = ShoppingListNameAdapter(this)
             binding.rcView.adapter = adapter
         }
 
@@ -74,6 +77,18 @@ class ShopListNamesFragment : BaseFragment() {
 
         @JvmStatic
         fun newInstance() = ShopListNamesFragment()
+    }
+
+    override fun deleteItem(id: Int) {
+        DeleteDialog.deleteItem(context as AppCompatActivity, object  : DeleteDialog.Listener {
+            override fun onClick() {
+                mainViewModel.deleteShopList(id)
+            }
+
+        })
+    }
+
+    override fun onClickItem(note: NoteItem) {
     }
 }
 
