@@ -8,12 +8,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shoppinglist.R
 import com.example.shoppinglist.databinding.ListNameItemBinding
-import com.example.shoppinglist.databinding.NoteListItemBinding
-import com.example.shoppinglist.entities.NoteItem
-import com.example.shoppinglist.entities.ShoppingListName
-import com.example.shoppinglist.utils.HtmlManager
+import com.example.shoppinglist.entities.ShopListNameItem
 
-class ShoppingListNameAdapter(private val listener: Listener): ListAdapter<ShoppingListName, ShoppingListNameAdapter.ItemHolder>(ItemComparator()) {
+class ShoppingListNameAdapter(private val listener: Listener): ListAdapter<ShopListNameItem, ShoppingListNameAdapter.ItemHolder>(ItemComparator()) {
 
 
     class ItemHolder(view: View) :
@@ -21,14 +18,17 @@ class ShoppingListNameAdapter(private val listener: Listener): ListAdapter<Shopp
         private val binding = ListNameItemBinding.bind(view)
 
 
-        fun setData(ShopListNameItem: ShoppingListName, listener: Listener) {
-            binding.tvName.text = ShopListNameItem.name
-            binding.tvTime.text = ShopListNameItem.time
+        fun setData(shopListNameItem: ShopListNameItem, listener: Listener) {
+            binding.tvName.text = shopListNameItem.name
+            binding.tvTime.text = shopListNameItem.time
             binding.imDelete.setOnClickListener {
-                listener.deleteItem(ShopListNameItem.id!!)
+                listener.deleteItem(shopListNameItem.id!!)
+            }
+            binding.imEdit.setOnClickListener {
+                listener.updateItem(shopListNameItem)
             }
             itemView.setOnClickListener {
-
+                listener.onClickItem(shopListNameItem)
             }
         }
 
@@ -43,17 +43,17 @@ class ShoppingListNameAdapter(private val listener: Listener): ListAdapter<Shopp
 
     }
 
-    class ItemComparator : DiffUtil.ItemCallback<ShoppingListName>() {
+    class ItemComparator : DiffUtil.ItemCallback<ShopListNameItem>() {
         override fun areItemsTheSame(
-            oldItem: ShoppingListName,
-            newItem: ShoppingListName
+            oldItem: ShopListNameItem,
+            newItem: ShopListNameItem
         ): Boolean {
             return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(
-            oldItem: ShoppingListName,
-            newItem: ShoppingListName
+            oldItem: ShopListNameItem,
+            newItem: ShopListNameItem
         ): Boolean {
             return oldItem == newItem
         }
@@ -75,6 +75,7 @@ class ShoppingListNameAdapter(private val listener: Listener): ListAdapter<Shopp
 
     interface Listener {
         fun deleteItem(id: Int)
-        fun onClickItem(note: NoteItem)
+        fun updateItem(shopListItem: ShopListNameItem)
+        fun onClickItem(shopListItem: ShopListNameItem )
     }
 }

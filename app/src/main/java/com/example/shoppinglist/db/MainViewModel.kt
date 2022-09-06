@@ -2,7 +2,7 @@ package com.example.shoppinglist.db
 
 import androidx.lifecycle.*
 import com.example.shoppinglist.entities.NoteItem
-import com.example.shoppinglist.entities.ShoppingListName
+import com.example.shoppinglist.entities.ShopListNameItem
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
 
@@ -22,14 +22,18 @@ class MainViewModel(database: MainDataBase): ViewModel() {
         dao.deleteNote(id)
     }
 
-    val allListNames: LiveData<List<ShoppingListName>> = dao.getAllShoppingLists().asLiveData()
+    val allListNamesItem: LiveData<List<ShopListNameItem>> = dao.getAllShoppingLists().asLiveData()
 
-    fun insertListName(name: ShoppingListName) = viewModelScope.launch {
-        dao.insertListName(name)
+    fun insertListName(nameItem: ShopListNameItem) = viewModelScope.launch {
+        dao.insertListName(nameItem)
     }
 
     fun deleteShopList(id: Int) = viewModelScope.launch {   // используем корутины от viewModel
         dao.deleteShopListName(id)
+    }
+
+    fun updateShopList(shopListItem: ShopListNameItem) = viewModelScope.launch {
+        dao.updateShopList(shopListItem)
     }
 
     class MainViewModelFactory(private val database: MainDataBase) : ViewModelProvider.Factory {

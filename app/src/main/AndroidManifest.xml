@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.shoppinglist">
 
-
     <application
         android:name=".activities.MainApp"
         android:allowBackup="true"
@@ -12,11 +11,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ShoppingList">
         <activity
+            android:name=".activities.ShopListActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.NewNoteActivity"
             android:exported="false"
-            android:windowSoftInputMode="stateVisible|adjustResize"
-            android:theme="@style/Theme.NewNote"/>
-
+            android:theme="@style/Theme.NewNote"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".activities.MainActivity"
             android:exported="true">

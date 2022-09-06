@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import java.io.Serializable
 
 @Entity (tableName = "shopping_list_names") // таблица типов списков
-data class ShoppingListName(
+data class ShopListNameItem(
     @PrimaryKey (autoGenerate = true)
     val id: Int?,
 
