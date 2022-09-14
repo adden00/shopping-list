@@ -19,6 +19,8 @@ class ShopListItemAdapter(private val listener: Listener): ListAdapter<ShopListI
 
             val binding = ShopListItemBinding.bind(view)
             binding.tvName.text = item.name
+            binding.tvInfo.visibility = infoVisibility(item)
+            binding.tvInfo.text = item.item_info
 
 
         }
@@ -27,6 +29,15 @@ class ShopListItemAdapter(private val listener: Listener): ListAdapter<ShopListI
 
 
 
+        }
+
+        fun infoVisibility(item: ShopListItem): Int {
+            return if (item.item_info.isNullOrEmpty()) {
+                View.GONE
+            }
+            else {
+                View.VISIBLE
+            }
         }
 
         companion object {

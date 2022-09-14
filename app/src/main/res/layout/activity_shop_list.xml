@@ -17,9 +17,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvTest"
+        android:id="@+id/tvIsEmpty"
         android:layout_width="59dp"
         android:layout_height="24dp"
+        android:text="@string/empty"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
