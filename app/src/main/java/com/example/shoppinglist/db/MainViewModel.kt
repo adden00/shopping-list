@@ -11,6 +11,12 @@ class MainViewModel(database: MainDataBase): ViewModel() {
     private val dao = database.getDao()
     val allNotes: LiveData<List<NoteItem>> = dao.getAllNotes().asLiveData()
 
+    val allListNamesItem: LiveData<List<ShopListNameItem>> = dao.getAllShoppingLists().asLiveData()
+
+    fun getAllItemsFromList(listId: Int): LiveData<List<ShopListItem>>{
+        return dao.getAllShopListItems(listId).asLiveData()
+    }
+
     fun insertNote(note: NoteItem) = viewModelScope.launch {   // используем корутины от viewModel
         dao.insertNote(note)
     }
@@ -23,7 +29,6 @@ class MainViewModel(database: MainDataBase): ViewModel() {
         dao.deleteNote(id)
     }
 
-    val allListNamesItem: LiveData<List<ShopListNameItem>> = dao.getAllShoppingLists().asLiveData()
 
     fun insertListName(nameItem: ShopListNameItem) = viewModelScope.launch {
         dao.insertListName(nameItem)

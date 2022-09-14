@@ -6,13 +6,16 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
 import androidx.activity.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shoppinglist.R
 import com.example.shoppinglist.databinding.ActivityShopListBinding
 import com.example.shoppinglist.db.MainViewModel
+import com.example.shoppinglist.db.ShopListItemAdapter
+import com.example.shoppinglist.db.ShoppingListNameAdapter
 import com.example.shoppinglist.entities.ShopListItem
 import com.example.shoppinglist.entities.ShopListNameItem
 
-class ShopListActivity : AppCompatActivity() {
+class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
 
     private lateinit var binding: ActivityShopListBinding
     private val viewModel: MainViewModel by viewModels {
@@ -21,12 +24,15 @@ class ShopListActivity : AppCompatActivity() {
     private var shopListNameItem: ShopListNameItem? = null
     private lateinit var saveItem: MenuItem
     private var edItem: EditText? = null
+    private var adapter: ShopListItemAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityShopListBinding.inflate(layoutInflater)
         setContentView(binding.root)
         init()
+        initRcView()
+        listItemObserver()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -49,9 +55,22 @@ class ShopListActivity : AppCompatActivity() {
     private fun addNewShopItem() {
         if (edItem?.text.toString().isEmpty()) return
         val item = ShopListItem(null, edItem?.text.toString(), null, 0, shopListNameItem?.id!!, 0)
+        edItem?.setText("")
         viewModel.insertItem(item)
+
     }
 
+    private fun listItemObserver() {
+        viewModel.getAllItemsFromList(shopListNameItem?.id!!).observe(this) {
+            adapter?.submitList(it)
+        }
+    }
+
+    private fun initRcView(){
+        adapter = ShopListItemAdapter(this)
+        binding.rcView.layoutManager = LinearLayoutManager(this )
+        binding.rcView.adapter = adapter
+    }
 
     private fun expandActionView() : MenuItem.OnActionExpandListener{
         return object : MenuItem.OnActionExpandListener{
@@ -76,5 +95,9 @@ class ShopListActivity : AppCompatActivity() {
 
     companion object {
         const val SHOP_LIST_NAME = "shop_list_name"
+    }
+
+    override fun onClick() {
+        TODO("Not yet implemented")
     }
 }

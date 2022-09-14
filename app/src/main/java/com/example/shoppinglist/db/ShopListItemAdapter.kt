@@ -7,15 +7,18 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shoppinglist.R
+import com.example.shoppinglist.databinding.ShopListItemBinding
 import com.example.shoppinglist.entities.ShopListItem
 
 class ShopListItemAdapter(private val listener: Listener): ListAdapter<ShopListItem, ShopListItemAdapter.ItemHolder>(ItemComparator()) {
 
-    class ItemHolder(view: View): RecyclerView.ViewHolder(view) {
+    class ItemHolder(val view: View): RecyclerView.ViewHolder(view) {
 //        private val binding
         
         fun setItemData(item: ShopListItem, listener: Listener) {
 
+            val binding = ShopListItemBinding.bind(view)
+            binding.tvName.text = item.name
 
 
         }

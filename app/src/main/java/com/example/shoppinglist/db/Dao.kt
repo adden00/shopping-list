@@ -30,6 +30,9 @@ interface Dao {
     @Query ("SELECT * FROM shopping_list_names")
     fun getAllShoppingLists(): Flow<List<ShopListNameItem>>
 
+    @Query ("SELECT * FROM shopping_list_item WHERE lest_id LIKE :listId")
+    fun getAllShopListItems(listId: Int): Flow<List<ShopListItem>>
+
     @Update  // запись
     suspend fun updateNote(note: NoteItem)
 
