@@ -92,7 +92,8 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
 
     private fun init(){
         shopListNameItem = intent.getSerializableExtra(SHOP_LIST_NAME) as ShopListNameItem
-//        binding.tvIsEmpty.text = shopListNameItem?.name.toString()
+//        binding.tvIsEmpty.text = shopListNameItem?.name.toString()\
+
     }
 
     companion object {

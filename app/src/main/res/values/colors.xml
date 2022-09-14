@@ -17,4 +17,7 @@
     <color name="cpBlue">#3F51B5</color>
     <color name="cpPurple">#673AB7</color>
 
+    <color name="activeText">#000000</color>
+    <color name="passiveText">#757575</color>
+
 </resources>
