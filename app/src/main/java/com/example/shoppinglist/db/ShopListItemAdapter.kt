@@ -7,20 +7,20 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shoppinglist.R
-import com.example.shoppinglist.entities.ShoppingListItem
+import com.example.shoppinglist.entities.ShopListItem
 
-class ShopListItemAdapter(private val listener: Listener): ListAdapter<ShoppingListItem, ShopListItemAdapter.ItemHolder>(ItemComparator()) {
+class ShopListItemAdapter(private val listener: Listener): ListAdapter<ShopListItem, ShopListItemAdapter.ItemHolder>(ItemComparator()) {
 
     class ItemHolder(view: View): RecyclerView.ViewHolder(view) {
-        private val binding
+//        private val binding
         
-        fun setItemData(item: ShoppingListItem, listener: Listener) {
+        fun setItemData(item: ShopListItem, listener: Listener) {
 
 
 
         }
 
-        fun setLibraryData(item: ShoppingListItem, listener: Listener) {
+        fun setLibraryData(item: ShopListItem, listener: Listener) {
 
 
 
@@ -39,17 +39,17 @@ class ShopListItemAdapter(private val listener: Listener): ListAdapter<ShoppingL
         }
     }
 
-    class ItemComparator : DiffUtil.ItemCallback<ShoppingListItem>() {
+    class ItemComparator : DiffUtil.ItemCallback<ShopListItem>() {
         override fun areItemsTheSame(
-            oldItem: ShoppingListItem,
-            newItem: ShoppingListItem
+            oldItem: ShopListItem,
+            newItem: ShopListItem
         ): Boolean {
             return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(
-            oldItem: ShoppingListItem,
-            newItem: ShoppingListItem
+            oldItem: ShopListItem,
+            newItem: ShopListItem
         ): Boolean {
             return oldItem == newItem
         }

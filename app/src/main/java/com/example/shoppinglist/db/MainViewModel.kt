@@ -2,6 +2,7 @@ package com.example.shoppinglist.db
 
 import androidx.lifecycle.*
 import com.example.shoppinglist.entities.NoteItem
+import com.example.shoppinglist.entities.ShopListItem
 import com.example.shoppinglist.entities.ShopListNameItem
 import kotlinx.coroutines.launch
 import java.lang.IllegalArgumentException
@@ -26,6 +27,10 @@ class MainViewModel(database: MainDataBase): ViewModel() {
 
     fun insertListName(nameItem: ShopListNameItem) = viewModelScope.launch {
         dao.insertListName(nameItem)
+    }
+
+    fun insertItem(shopListItem: ShopListItem) = viewModelScope.launch {
+        dao.insertItem(shopListItem)
     }
 
     fun deleteShopList(id: Int) = viewModelScope.launch {   // используем корутины от viewModel

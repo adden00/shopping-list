@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import com.example.shoppinglist.entities.NoteItem
+import com.example.shoppinglist.entities.ShopListItem
 import com.example.shoppinglist.entities.ShopListNameItem
 import kotlinx.coroutines.flow.Flow
 
@@ -22,6 +23,9 @@ interface Dao {
 
     @Insert
     suspend fun insertListName(nameItem: ShopListNameItem) // добавить список
+
+    @Insert
+    suspend fun insertItem(shopListItem: ShopListItem)
 
     @Query ("SELECT * FROM shopping_list_names")
     fun getAllShoppingLists(): Flow<List<ShopListNameItem>>
