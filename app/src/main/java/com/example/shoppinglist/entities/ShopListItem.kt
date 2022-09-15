@@ -18,7 +18,7 @@ data class ShopListItem(
     val item_info: String?,
 
     @ColumnInfo (name = "checked")
-    val checked: Int = 0,
+    val checked: Boolean = false,
 
     @ColumnInfo (name = "lest_id") // id списка, в котором этот элемент лежит
     val elements_ids: Int,

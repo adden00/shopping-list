@@ -55,7 +55,7 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
 
     private fun addNewShopItem() {
         if (edItem?.text.toString().isEmpty()) return
-        val item = ShopListItem(null, edItem?.text.toString(), null, 0, shopListNameItem?.id!!, 0)
+        val item = ShopListItem(null, edItem?.text.toString(), null, false, shopListNameItem?.id!!, 0)
         edItem?.setText("")
         viewModel.insertItem(item)
 
@@ -100,7 +100,7 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
         const val SHOP_LIST_NAME = "shop_list_name"
     }
 
-    override fun onClick() {
-        TODO("Not yet implemented")
+    override fun onClick(shopListItem: ShopListItem) {
+        viewModel.updateListItem(shopListItem)
     }
 }

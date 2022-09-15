@@ -42,8 +42,12 @@ class MainViewModel(database: MainDataBase): ViewModel() {
         dao.deleteShopListName(id)
     }
 
-    fun updateShopList(shopListItem: ShopListNameItem) = viewModelScope.launch {
-        dao.updateShopList(shopListItem)
+    fun updateShopList(shopList: ShopListNameItem) = viewModelScope.launch {
+        dao.updateShopList(shopList)
+    }
+
+    fun updateListItem(shopListItem: ShopListItem) = viewModelScope.launch {
+        dao.upDateLisItem(shopListItem)
     }
 
     class MainViewModelFactory(private val database: MainDataBase) : ViewModelProvider.Factory {

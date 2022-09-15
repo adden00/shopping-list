@@ -23,9 +23,11 @@ class ShopListItemAdapter(private val listener: Listener) :
             binding.tvName.text = item.name
             binding.tvInfo.visibility = infoVisibility(item)
             binding.tvInfo.text = item.item_info
+            binding.checkBox.isChecked = item.checked
+            setFlags(binding)
             binding.checkBox.setOnClickListener {
-                setFlag(binding)
-
+                setFlags(binding)
+                listener.onClick(item.copy(checked = binding.checkBox.isChecked))
             }
         }
 
@@ -34,7 +36,7 @@ class ShopListItemAdapter(private val listener: Listener) :
 
         }
 
-        private fun setFlag(binding: ShopListItemBinding) {
+        private fun setFlags(binding: ShopListItemBinding) {
             binding.apply {
                 if (checkBox.isChecked) {
                     tvName.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
@@ -113,7 +115,7 @@ class ShopListItemAdapter(private val listener: Listener) :
     }
 
     interface Listener {
-        fun onClick()
+        fun onClick(shopListItem: ShopListItem)
     }
 
 
