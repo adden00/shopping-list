@@ -12,7 +12,7 @@ import com.example.shoppinglist.R
 import com.example.shoppinglist.databinding.ActivityShopListBinding
 import com.example.shoppinglist.db.MainViewModel
 import com.example.shoppinglist.db.ShopListItemAdapter
-import com.example.shoppinglist.db.ShoppingListNameAdapter
+import com.example.shoppinglist.dialogs.EditListItemDialog
 import com.example.shoppinglist.entities.ShopListItem
 import com.example.shoppinglist.entities.ShopListNameItem
 
@@ -100,7 +100,21 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
         const val SHOP_LIST_NAME = "shop_list_name"
     }
 
-    override fun onClick(shopListItem: ShopListItem) {
-        viewModel.updateListItem(shopListItem)
+    override fun onClick(item: ShopListItem, state: Int) {
+        when (state) {
+            ShopListItemAdapter.CHECKBOX -> viewModel.updateListItem(item)
+            ShopListItemAdapter.EDIT -> editListItem(item)
+        }
+
+
+    }
+
+    private fun editListItem(item: ShopListItem) {
+        EditListItemDialog.showDialog(this, object : EditListItemDialog.Listener{
+            override fun onClick(item: ShopListItem) {
+                viewModel.updateListItem(item)
+            }
+
+        }, item)
     }
 }

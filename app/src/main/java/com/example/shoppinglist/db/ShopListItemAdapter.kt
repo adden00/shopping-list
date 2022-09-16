@@ -27,7 +27,10 @@ class ShopListItemAdapter(private val listener: Listener) :
             setFlags(binding)
             binding.checkBox.setOnClickListener {
                 setFlags(binding)
-                listener.onClick(item.copy(checked = binding.checkBox.isChecked))
+                listener.onClick(item.copy(checked = binding.checkBox.isChecked), CHECKBOX)
+            }
+            binding.imageButton.setOnClickListener {
+                listener.onClick(item, EDIT)
             }
         }
 
@@ -115,7 +118,14 @@ class ShopListItemAdapter(private val listener: Listener) :
     }
 
     interface Listener {
-        fun onClick(shopListItem: ShopListItem)
+
+        fun onClick(shopListItem: ShopListItem, state: Int)
+    }
+
+    companion object {
+        const val EDIT = 0
+        const val CHECKBOX = 1
+
     }
 
 
