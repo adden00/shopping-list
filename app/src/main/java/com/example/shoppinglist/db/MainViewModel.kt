@@ -38,8 +38,10 @@ class MainViewModel(database: MainDataBase): ViewModel() {
         dao.insertItem(shopListItem)
     }
 
-    fun deleteShopList(id: Int) = viewModelScope.launch {   // используем корутины от viewModel
-        dao.deleteShopListName(id)
+    fun deleteShopList(id: Int, deleteListFlag: Boolean) = viewModelScope.launch {   // используем корутины от viewModel
+        if (deleteListFlag)
+            dao.deleteShopListName(id)
+        dao.deleteShopItemsByListId(id)
     }
 
     fun updateShopList(shopList: ShopListNameItem) = viewModelScope.launch {

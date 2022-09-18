@@ -48,8 +48,19 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.save_item)
-            addNewShopItem()
+        when (item.itemId) {
+            R.id.save_item ->
+                addNewShopItem()
+            R.id.delete_list -> {
+                viewModel.deleteShopList(shopListNameItem?.id!!, true)
+                finish()
+            }
+            R.id.clear_list -> {
+                viewModel.deleteShopList(shopListNameItem?.id!!, false)
+            }
+
+        }
+
         return super.onOptionsItemSelected(item)
     }
 
@@ -100,10 +111,10 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
         const val SHOP_LIST_NAME = "shop_list_name"
     }
 
-    override fun onClick(item: ShopListItem, state: Int) {
+    override fun onClick(shopListItem: ShopListItem, state: Int) {
         when (state) {
-            ShopListItemAdapter.CHECKBOX -> viewModel.updateListItem(item)
-            ShopListItemAdapter.EDIT -> editListItem(item)
+            ShopListItemAdapter.CHECKBOX -> viewModel.updateListItem(shopListItem)
+            ShopListItemAdapter.EDIT -> editListItem(shopListItem)
         }
 
 
