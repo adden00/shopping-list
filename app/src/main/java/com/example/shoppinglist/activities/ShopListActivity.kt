@@ -1,5 +1,6 @@
 package com.example.shoppinglist.activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -15,6 +16,7 @@ import com.example.shoppinglist.db.ShopListItemAdapter
 import com.example.shoppinglist.dialogs.EditListItemDialog
 import com.example.shoppinglist.entities.ShopListItem
 import com.example.shoppinglist.entities.ShopListNameItem
+import com.example.shoppinglist.utils.ShareHelper
 
 class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
 
@@ -58,6 +60,16 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
             R.id.clear_list -> {
                 viewModel.deleteShopList(shopListNameItem?.id!!, false)
             }
+            R.id.share_list -> {
+                startActivity(
+                    Intent.createChooser(
+                        ShareHelper.shareShopList(
+                            adapter?.currentList!!,
+                            shopListNameItem?.name!!
+                        ), "Share by"
+                    )
+                )
+            }
 
         }
 
@@ -66,7 +78,8 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
 
     private fun addNewShopItem() {
         if (edItem?.text.toString().isEmpty()) return
-        val item = ShopListItem(null, edItem?.text.toString(), null, false, shopListNameItem?.id!!, 0)
+        val item =
+            ShopListItem(null, edItem?.text.toString(), null, false, shopListNameItem?.id!!, 0)
         edItem?.setText("")
         viewModel.insertItem(item)
 
@@ -79,14 +92,14 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
         }
     }
 
-    private fun initRcView(){
+    private fun initRcView() {
         adapter = ShopListItemAdapter(this)
-        binding.rcView.layoutManager = LinearLayoutManager(this )
+        binding.rcView.layoutManager = LinearLayoutManager(this)
         binding.rcView.adapter = adapter
     }
 
-    private fun expandActionView() : MenuItem.OnActionExpandListener{
-        return object : MenuItem.OnActionExpandListener{
+    private fun expandActionView(): MenuItem.OnActionExpandListener {
+        return object : MenuItem.OnActionExpandListener {
             override fun onMenuItemActionExpand(p0: MenuItem?): Boolean {
                 saveItem.isVisible = true
                 return true
@@ -101,7 +114,7 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
         }
     }
 
-    private fun init(){
+    private fun init() {
         shopListNameItem = intent.getSerializableExtra(SHOP_LIST_NAME) as ShopListNameItem
 //        binding.tvIsEmpty.text = shopListNameItem?.name.toString()\
 
@@ -121,7 +134,7 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
     }
 
     private fun editListItem(item: ShopListItem) {
-        EditListItemDialog.showDialog(this, object : EditListItemDialog.Listener{
+        EditListItemDialog.showDialog(this, object : EditListItemDialog.Listener {
             override fun onClick(item: ShopListItem) {
                 viewModel.updateListItem(item)
             }
