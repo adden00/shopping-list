@@ -18,7 +18,7 @@ class ShopListItemAdapter(private val listener: Listener) :
 
     class ItemHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
-        fun setItemData(item: ShopListItem, listener: Listener) {
+        fun setData(item: ShopListItem, listener: Listener) {
 
             val binding = ShopListItemBinding.bind(view)
             binding.tvName.text = item.name
@@ -33,6 +33,7 @@ class ShopListItemAdapter(private val listener: Listener) :
             binding.imEdit.setOnClickListener {
                 listener.onClick(item, EDIT)
             }
+
         }
 
         fun setLibraryData(item: ShopListItem, listener: Listener) {
@@ -44,6 +45,10 @@ class ShopListItemAdapter(private val listener: Listener) :
                 }
                 imDelete.setOnClickListener {
                     listener.onClick(item, DELETE_LIBRARY_ITEM)
+                }
+                itemView.setOnClickListener {
+                    listener.onClick(item, ADD)
+
                 }
 
             }
@@ -119,7 +124,7 @@ class ShopListItemAdapter(private val listener: Listener) :
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
         if (getItem(position).item_type == 0)
-            holder.setItemData(getItem(position), listener)
+            holder.setData(getItem(position), listener)
         else
             holder.setLibraryData(getItem(position), listener)
     }
@@ -138,6 +143,7 @@ class ShopListItemAdapter(private val listener: Listener) :
         const val EDIT_LIBRARY_ITEM = 2
         const val CHECKBOX = 1
         const val DELETE_LIBRARY_ITEM = 3
+        const val ADD = 4
 
     }
 

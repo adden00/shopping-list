@@ -96,9 +96,9 @@
         app:layout_constraintTop_toTopOf="@+id/im_edit">
 
         <LinearLayout
+            android:id="@+id/counterCard"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:backgroundTint="#376EDC"
             android:gravity="center"
             android:orientation="horizontal">
 

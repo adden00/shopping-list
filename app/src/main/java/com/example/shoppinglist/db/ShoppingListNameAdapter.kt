@@ -1,8 +1,11 @@
 package com.example.shoppinglist.db
 
+import android.content.Context
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -30,6 +33,22 @@ class ShoppingListNameAdapter(private val listener: Listener): ListAdapter<ShopL
             itemView.setOnClickListener {
                 listener.onClickItem(shopListNameItem)
             }
+            val colorState = ColorStateList.valueOf(getProgressColorState(shopListNameItem, binding.root.context))
+
+            binding.pBar.progressTintList = colorState
+            binding.counterCard.backgroundTintList = colorState
+            val counterText = "${shopListNameItem.checked_item_count}/${shopListNameItem.all_item_count}"
+            binding.tvCounter.text = counterText
+            binding.pBar.max = shopListNameItem.all_item_count
+            binding.pBar.progress = shopListNameItem.checked_item_count
+
+        }
+
+        private fun getProgressColorState(item: ShopListNameItem, context: Context): Int {
+            return if (item.checked_item_count == item.all_item_count)
+                ContextCompat.getColor(context, R.color.green_main)
+            else
+                ContextCompat.getColor(context, R.color.red_main)
         }
 
         companion object {
