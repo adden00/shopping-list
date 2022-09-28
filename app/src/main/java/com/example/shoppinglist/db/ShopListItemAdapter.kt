@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shoppinglist.R
+import com.example.shoppinglist.databinding.ShopLibraryListItemBinding
 import com.example.shoppinglist.databinding.ShopListItemBinding
 import com.example.shoppinglist.entities.ShopListItem
 
@@ -29,13 +30,23 @@ class ShopListItemAdapter(private val listener: Listener) :
                 setFlags(binding)
                 listener.onClick(item.copy(checked = binding.checkBox.isChecked), CHECKBOX)
             }
-            binding.imageButton.setOnClickListener {
+            binding.imEdit.setOnClickListener {
                 listener.onClick(item, EDIT)
             }
         }
 
         fun setLibraryData(item: ShopListItem, listener: Listener) {
+            val binding = ShopLibraryListItemBinding.bind(view)
+            binding.apply {
+                tvName.text = item.name
+                imEdit.setOnClickListener {
+                    listener.onClick(item, EDIT_LIBRARY_ITEM)
+                }
+                imDelete.setOnClickListener {
+                    listener.onClick(item, DELETE_LIBRARY_ITEM)
+                }
 
+            }
 
         }
 
@@ -124,7 +135,9 @@ class ShopListItemAdapter(private val listener: Listener) :
 
     companion object {
         const val EDIT = 0
+        const val EDIT_LIBRARY_ITEM = 2
         const val CHECKBOX = 1
+        const val DELETE_LIBRARY_ITEM = 3
 
     }
 

@@ -30,13 +30,13 @@
                 android:textColor="#707070"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/imageButton"
+                app:layout_constraintEnd_toStartOf="@+id/imEdit"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
-                android:id="@+id/imageButton2"
+                android:id="@+id/imDelete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -47,13 +47,13 @@
                 app:srcCompat="@drawable/ic_baseline_delete_24" />
 
             <ImageButton
-                android:id="@+id/imageButton"
+                android:id="@+id/imEdit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="9dp"
                 android:background="@null"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/imageButton2"
+                app:layout_constraintEnd_toStartOf="@+id/imDelete"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_edit_library_item" />
         </androidx.constraintlayout.widget.ConstraintLayout>

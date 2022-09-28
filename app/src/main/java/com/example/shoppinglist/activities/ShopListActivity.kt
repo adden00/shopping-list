@@ -17,6 +17,7 @@ import com.example.shoppinglist.databinding.ActivityShopListBinding
 import com.example.shoppinglist.db.MainViewModel
 import com.example.shoppinglist.db.ShopListItemAdapter
 import com.example.shoppinglist.dialogs.EditListItemDialog
+import com.example.shoppinglist.entities.LibraryItem
 import com.example.shoppinglist.entities.ShopListItem
 import com.example.shoppinglist.entities.ShopListNameItem
 import com.example.shoppinglist.utils.ShareHelper
@@ -61,7 +62,7 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
             }
 
             override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                Log.d("MyLog", "On Text Changed: $s")
+                viewModel.getAllLibraryItems("%$s%")
             }
 
             override fun afterTextChanged(p0: Editable?) {
@@ -113,6 +114,19 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
         }
     }
 
+    private fun libraryItemObserver() {
+        viewModel.libraryItems.observe(this) { it ->
+            val temList = arrayListOf<ShopListItem>()
+            it.forEach { item ->
+                val shopItem = ShopListItem(item.id, item.name, "", false, 0, 1)
+
+            temList.add(shopItem)
+            }
+            adapter?.submitList(temList)
+            binding.tvIsEmpty.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
+        }
+    }
+
     private fun initRcView() {
         adapter = ShopListItemAdapter(this)
         binding.rcView.layoutManager = LinearLayoutManager(this)
@@ -124,6 +138,9 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
             override fun onMenuItemActionExpand(p0: MenuItem?): Boolean {
                 saveItem.isVisible = true
                 edItem?.addTextChangedListener(textWatcher)
+                libraryItemObserver()
+                viewModel.getAllItemsFromList(shopListNameItem?.id!!).removeObservers(this@ShopListActivity)
+                viewModel.getAllLibraryItems("%%")
                 return true
             }
 
@@ -131,6 +148,9 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
                 saveItem.isVisible = false
                 edItem?.removeTextChangedListener(textWatcher)
                 invalidateOptionsMenu()
+                viewModel.libraryItems.removeObservers(this@ShopListActivity)
+                edItem?.setText("")
+                listItemObserver()
                 return true
             }
 
@@ -151,9 +171,29 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
         when (state) {
             ShopListItemAdapter.CHECKBOX -> viewModel.updateListItem(shopListItem)
             ShopListItemAdapter.EDIT -> editListItem(shopListItem)
+            ShopListItemAdapter.EDIT_LIBRARY_ITEM -> editLibraryItem(shopListItem)
+            ShopListItemAdapter.DELETE_LIBRARY_ITEM -> {
+
+                viewModel.deleteLibraryItem(shopListItem.id!!)
+                viewModel.getAllLibraryItems("%${edItem?.text.toString()}%")
+            }
+
         }
 
 
+    }
+
+
+
+    private fun editLibraryItem(item: ShopListItem) {
+        EditListItemDialog.showDialog(this, object : EditListItemDialog.Listener {
+            override fun onClick(item: ShopListItem) {
+                viewModel.updateLibraryItem(LibraryItem(item.id, item.name)) // прямо здесь создаем элемент, чтобы передать его в обновление
+                viewModel.getAllLibraryItems("%${edItem?.text.toString()}%")
+
+            }
+
+        }, item)
     }
 
     private fun editListItem(item: ShopListItem) {

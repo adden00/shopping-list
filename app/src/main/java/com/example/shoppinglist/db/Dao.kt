@@ -52,8 +52,14 @@ interface Dao {
     @Update
     suspend fun upDateLisItem(item: ShopListItem)
 
+    @Update
+    suspend fun upDateLibraryItem(item: LibraryItem)
+
     @Query ("DELETE FROM SHOPPING_LIST_NAMES WHERE id IS :id")   // удаление по id
     suspend fun deleteShopListName(id: Int)    // запускаем на корутине удаление
+
+    @Query ("DELETE FROM library_item WHERE id IS :id")   // удаление по id
+    suspend fun deleteLibraryItem(id: Int)    // запускаем на корутине удаление
 
     @Query ("DELETE FROM SHOPPING_LIST_ITEM WHERE id LIKE :id")   // удаление по id
     suspend fun deleteShopItemsByListId(id: Int)    // запускаем на корутине удаление

@@ -14,8 +14,15 @@ class MainViewModel(database: MainDataBase): ViewModel() {
 
     val allListNamesItem: LiveData<List<ShopListNameItem>> = dao.getAllShoppingLists().asLiveData()
 
+    val libraryItems = MutableLiveData<List<LibraryItem>>()
+
     fun getAllItemsFromList(listId: Int): LiveData<List<ShopListItem>>{
         return dao.getAllShopListItems(listId).asLiveData()
+    }
+
+    fun getAllLibraryItems(name: String) = viewModelScope.launch {
+        libraryItems.postValue(dao.getAllLibraryItems(name))
+
     }
 
     fun insertNote(note: NoteItem) = viewModelScope.launch {   // используем корутины от viewModel
@@ -30,6 +37,10 @@ class MainViewModel(database: MainDataBase): ViewModel() {
         dao.deleteNote(id)
     }
 
+    fun deleteLibraryItem(id: Int) = viewModelScope.launch {   // используем корутины от viewModel
+        dao.deleteLibraryItem(id)
+    }
+
 
     fun insertListName(nameItem: ShopListNameItem) = viewModelScope.launch {
         dao.insertListName(nameItem)
@@ -37,7 +48,7 @@ class MainViewModel(database: MainDataBase): ViewModel() {
 
     fun insertItem(shopListItem: ShopListItem) = viewModelScope.launch {
         dao.insertItem(shopListItem)
-        if (isLibraryItemExists(shopListItem.name))
+        if (!isLibraryItemExists(shopListItem.name))
             dao.insertLibraryItem(LibraryItem(null, shopListItem.name))
     }
 
@@ -54,6 +65,10 @@ class MainViewModel(database: MainDataBase): ViewModel() {
 
     fun updateListItem(shopListItem: ShopListItem) = viewModelScope.launch {
         dao.upDateLisItem(shopListItem)
+    }
+
+    fun updateLibraryItem(item: LibraryItem) = viewModelScope.launch {
+        dao.upDateLibraryItem(item)
     }
 
     private suspend fun isLibraryItemExists(name: String):Boolean {
