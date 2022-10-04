@@ -3,6 +3,7 @@ package com.example.shoppinglist.activities
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -14,8 +15,10 @@ import android.view.MenuItem
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.EditText
 import androidx.core.content.ContextCompat
 import androidx.core.text.getSpans
+import androidx.preference.PreferenceManager
 import com.example.shoppinglist.R
 import com.example.shoppinglist.databinding.ActivityNewNoteBinding
 import com.example.shoppinglist.entities.NoteItem
@@ -29,6 +32,7 @@ import java.util.*
 class NewNoteActivity : AppCompatActivity() {
     private lateinit var binding: ActivityNewNoteBinding
     private var note: NoteItem? = null
+    private var pref: SharedPreferences? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -38,6 +42,7 @@ class NewNoteActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         getNote()
         init()
+        setTextSize()
         onClickColorPicker()
     }
 
@@ -62,6 +67,7 @@ class NewNoteActivity : AppCompatActivity() {
     @SuppressLint("ClickableViewAccessibility")
     private fun init() {
         binding.colorPicker.setOnTouchListener(MyTouchListener())
+        pref = PreferenceManager.getDefaultSharedPreferences(this)
     }
 
     private fun fillNote() {
@@ -200,6 +206,16 @@ class NewNoteActivity : AppCompatActivity() {
         })
         binding.colorPicker.startAnimation(closeAnim)
 
+    }
+
+    private fun setTextSize() = with(binding) {
+        edTitle.setTextSize(pref?.getString("title_size_key", "16"))
+        edTitle.setTextSize(pref?.getString("content_size_key", "12"))
+    }
+
+    private fun EditText.setTextSize(size: String?){
+        if (size != null)
+            this.textSize = size.toFloat()
     }
 
 
