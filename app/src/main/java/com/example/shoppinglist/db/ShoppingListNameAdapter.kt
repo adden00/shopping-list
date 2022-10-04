@@ -24,6 +24,18 @@ class ShoppingListNameAdapter(private val listener: Listener): ListAdapter<ShopL
         fun setData(shopListNameItem: ShopListNameItem, listener: Listener) {
             binding.tvName.text = shopListNameItem.name
             binding.tvTime.text = shopListNameItem.time
+            binding.pBar.max = shopListNameItem.all_item_count
+            binding.pBar.progress = shopListNameItem.checked_item_count
+            val colorState = ColorStateList.valueOf(getProgressColorState(shopListNameItem, binding.root.context))
+
+            binding.pBar.progressTintList = colorState
+            binding.counterCard.backgroundTintList = colorState
+
+
+
+            val counterText = "${shopListNameItem.checked_item_count}/${shopListNameItem.all_item_count}"
+            binding.tvCounter.text = counterText
+
             binding.imDelete.setOnClickListener {
                 listener.deleteItem(shopListNameItem.id!!)
             }
@@ -33,14 +45,6 @@ class ShoppingListNameAdapter(private val listener: Listener): ListAdapter<ShopL
             itemView.setOnClickListener {
                 listener.onClickItem(shopListNameItem)
             }
-            val colorState = ColorStateList.valueOf(getProgressColorState(shopListNameItem, binding.root.context))
-
-            binding.pBar.progressTintList = colorState
-            binding.counterCard.backgroundTintList = colorState
-            val counterText = "${shopListNameItem.checked_item_count}/${shopListNameItem.all_item_count}"
-            binding.tvCounter.text = counterText
-            binding.pBar.max = shopListNameItem.all_item_count
-            binding.pBar.progress = shopListNameItem.checked_item_count
 
         }
 
