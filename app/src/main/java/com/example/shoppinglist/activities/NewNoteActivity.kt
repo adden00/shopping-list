@@ -125,6 +125,7 @@ class NewNoteActivity : AppCompatActivity() {
         binding.edDescription.text.trim()
         binding.edDescription.setSelection(startPos)
 
+
     }
 
     private fun setColor(colorId: Int) {
