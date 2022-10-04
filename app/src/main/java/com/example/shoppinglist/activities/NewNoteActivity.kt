@@ -211,7 +211,7 @@ class NewNoteActivity : AppCompatActivity() {
 
     private fun setTextSize() = with(binding) {
         edTitle.setTextSize(pref?.getString("title_size_key", "16"))
-        edTitle.setTextSize(pref?.getString("content_size_key", "12"))
+        edDescription.setTextSize(pref?.getString("content_size_key", "12"))
     }
 
     private fun EditText.setTextSize(size: String?){

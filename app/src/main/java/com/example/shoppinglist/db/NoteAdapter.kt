@@ -1,5 +1,6 @@
 package com.example.shoppinglist.db
 
+import android.content.SharedPreferences
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,18 +11,19 @@ import com.example.shoppinglist.R
 import com.example.shoppinglist.databinding.NoteListItemBinding
 import com.example.shoppinglist.entities.NoteItem
 import com.example.shoppinglist.utils.HtmlManager
+import com.example.shoppinglist.utils.TimeManager
 
-class NoteAdapter(private val listener: Listener): ListAdapter<NoteItem, NoteAdapter.ItemHolder>(ItemComparator()) {
+class NoteAdapter(private val listener: Listener, private val defPref: SharedPreferences): ListAdapter<NoteItem, NoteAdapter.ItemHolder>(ItemComparator()) {
 
 
     class ItemHolder(view: View) : RecyclerView.ViewHolder(view) { // каждый объект класса хранит ссылку на одну пазметку list_item
         private val binding = NoteListItemBinding.bind(view)
 
 
-        fun setData(note: NoteItem, listener: Listener){
+        fun setData(note: NoteItem, listener: Listener, defPref: SharedPreferences){
             binding.tvTitle.text = note.title
             binding.tvDescription.text = HtmlManager.getHtml(note.content).trim()
-            binding.tvTime.text = note.time
+            binding.tvTime.text = TimeManager.getTimeFormat(note.time, defPref)
             binding.imDelete.setOnClickListener{
                 listener.deleteItem(note.id!!)
             }
@@ -53,7 +55,7 @@ class NoteAdapter(private val listener: Listener): ListAdapter<NoteItem, NoteAda
     }
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
-        holder.setData(getItem(position), listener)
+        holder.setData(getItem(position), listener, defPref)
     }
 
     interface Listener{

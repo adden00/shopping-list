@@ -14,15 +14,15 @@
             app:useSimpleSummaryProvider="true"
             app:title="@string/choose_note_style" />
         <ListPreference
-            android:defaultValue="1"
+            android:defaultValue="hh:mm:ss - yyyy/MM/dd"
             android:entries="@array/time_format_array"
             android:entryValues="@array/time_format_values"
+            android:icon="@drawable/ic_time_format"
             android:key="time_format_key"
             android:title="List preference"
-            android:icon="@drawable/ic_time_format"
-            app:useSimpleSummaryProvider="true"
+            app:title="@string/choose_time_format"
 
-            app:title="@string/choose_time_format" />
+            app:useSimpleSummaryProvider="true" />
         <Preference
             android:title="@string/remove_adds"
             android:summary="@string/remove_adds_summary"
@@ -44,24 +44,24 @@
     <PreferenceCategory android:title="@string/note_text_settings">
 
         <ListPreference
-            android:defaultValue="1"
+            android:defaultValue="16"
             android:entries="@array/text_size_array"
             android:entryValues="@array/text_size_values"
-            android:key="title_size_key"
             android:icon="@drawable/ic_text_size"
-            app:useSimpleSummaryProvider="true"
+            android:key="title_size_key"
+            android:title="@string/title_text_size"
 
-            android:title="@string/title_text_size" />
+            app:useSimpleSummaryProvider="true" />
 
         <ListPreference
-            android:defaultValue="1"
+            android:defaultValue="14"
             android:entries="@array/text_size_array"
             android:entryValues="@array/text_size_values"
-            android:key="content_size_key"
             android:icon="@drawable/ic_text_size"
-            app:useSimpleSummaryProvider="true"
+            android:key="content_size_key"
+            android:title="@string/content_text_size"
 
-            android:title="@string/content_text_size" />
+            app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>
 </PreferenceScreen>
